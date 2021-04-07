@@ -7,7 +7,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework.response import Response
-
+from .models import Student,Teacher
 
 from . import serializers
 from .utils import get_and_authenticate_user,create_user_account
@@ -37,6 +37,17 @@ class AuthViewSet(viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
         user = create_user_account(**serializer.validated_data)
         data = serializers.AuthUserSerializer(user).data
+        ts=request.data['ts']
+        if ts == 'True':
+            roll=request.data['rollno']
+            dept=request.data['dept']
+            cy=request.data['cy']
+            obj=Student(studentId=user,department=dept,rollno=roll,currentYear=cy)
+            obj.save()
+        else:
+            dept=request.data['dept']
+            obj=Teacher(studentId=user,department=dept)
+            obj.save()
         return Response(data=data, status=status.HTTP_201_CREATED)
 
 

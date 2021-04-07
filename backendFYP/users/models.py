@@ -55,4 +55,3 @@ class Teacher(models.Model):
     id=models.AutoField(primary_key=True)
     teacherId=models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     department=models.CharField(max_length=50)
-    uniqueId=models.CharField(max_length=255)
