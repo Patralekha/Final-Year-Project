@@ -106,12 +106,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="index.js"></script>
+<script src="tindex.js"></script>
 
 </head>
 <body>
@@ -126,7 +127,7 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link">
-               <span style="cursor:pointer" onclick="window.location.reload()">&#9776; All Transactions</span>
+               <span style="cursor:pointer" onclick="window.location.reload()">&#9776;Teacher's Section</span>
              </a>
             </li>
            
@@ -185,29 +186,96 @@
    <br/><br/>
    <div id="chart"></div>
     
-    <div class="row">
-     
+    <div class="row">   
       <div class="col-md-1"></div>
-      
-      
-
     </div>
     
     <div class="row login-img1" style="align-items: center;text-align: center;">
-    
-      
-
       <div class="col-md-3">
-
       </div>
     
       <!-- Table Data Column -->
-      <div style="align-items:left;text-align: left;margin-left:40px;" >
+      <div style="align-items:left;text-align: left;" class="col-md-11">
 
 
-        <h1  style="font-weight: bolder;color:rgb(15, 9, 1);text-align: center;margin-top: 20px;">Student Dashboard</h1>
+        <h1  style="font-weight: bolder;color:rgb(15, 9, 1);text-align: center;margin-top: 20px;">Teacher Dashboard</h1>
         <br/><br/>
-     
+        <button type="button" class="btn btn-default btn-lg" style="margin-bottom:10px;" data-toggle="modal" data-target="#myModal">
+          <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add a new Subject
+        </button> &nbsp;
+        <button type="button" class="btn btn-default btn-lg" style="margin-bottom:10px;" data-toggle="modal" data-target="#myModal1">
+          <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add a new Topic
+        </button>
+
+        <div id="myModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Add Subject</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                
+              </div>
+              <div class="modal-body">
+                <form id="addsub" name="addsub">
+                  
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Subject name</label>
+                    <input type="text" class="form-control" id="sub" placeholder="Subject name" name="sub">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+
+
+
+        <div id="myModal1" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Add topic under a subject</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                
+              </div>
+              <div class="modal-body">
+                <form id="addtopic" name="addtopic">
+
+                  <div class="form-group">
+                    <label for="exampleFormControlSelect1">Select Subject</label>
+                    <select class="form-control" id="subselect" name="subselect">
+                      
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Add topic</label>
+                    <input type="text" class="form-control" id="topicadd" placeholder="Topic name" name="topicadd">
+                  </div>
+                  <input type="submit" class="btn btn-primary" value="Add">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+        
+
+
+
+
+
+
+
+
         <!-- Test Subjects Offered -->
         <div class="accordion" id="accordionExample">
           <div class="card">
@@ -224,33 +292,39 @@
                 <ul>
                   <li>
                     <p>Coordinate Geometry 
-                      <button class="btn btn-outline-danger" type="button">Take Test</button>
-                    <div class="progress">
-                      <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="70"
-                      aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                        70% COMPLETED
-                      </div>
-                      <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="30"
-                      aria-valuemin="0" aria-valuemax="100" style="width:30%">
-                        30% REMAINING
-                      </div>
-                    </div>
-                  </p>&nbsp;
+                      <button class="btn btn-outline-success" type="button" style="float:right">Add MCQ</button>
+                    </p>
                   </li>
+                  <br/>
                   <li>
-                    Differential Calculus
+                    <p>Differential Calculus
+                      <button class="btn btn-outline-success" type="button" style="float:right">Add MCQ</button>
+                    </p>
                   </li>
+                  <br/>
                   <li>
-                    Integral Calculus
+                    <p>
+                      Integral Calculus
+                      <button class="btn btn-outline-success" type="button" style="float:right">Add MCQ</button>
+                    </p>
                   </li>
+                  <br/>
                   <li>
-                    Algebra
+                    <p>Algebra
+                      <button class="btn btn-outline-success" type="button" style="float:right">Add MCQ</button>
+                    </p>
                   </li>
+                  <br/>
                   <li>
-                    Trigonometry
+                    <p>Trigonometry
+                      <button class="btn btn-outline-success" type="button" style="float:right">Add MCQ</button>
+                    </p>
                   </li>
+                  <br/>
                   <li>
-                    Vector & 3D Geometry
+                    <p>Vector & 3D Geometry
+                    <button class="btn btn-outline-success" type="button" style="float:right">Add MCQ</button>
+                  </p>
                   </li>
                 </ul>
               </div>

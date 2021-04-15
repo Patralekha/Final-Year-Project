@@ -26,4 +26,5 @@ schema_view = get_swagger_view(title='Examination Platform')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
+    path('', include('subjects.urls')),
 ]

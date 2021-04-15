@@ -223,17 +223,39 @@ a:hover {
                             <div class="modal-dialog modal-dialog-centered" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLongTitle">Register as a new student</h5>
+                                  <h5 class="modal-title" id="exampleModalLongTitle">
+                                    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        Register as a new student
+                                        </a>
+                                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                            Register as a new teacher
+                                        </a>
+                                  </h5>
+                                   
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
                                 </div>
                             
                                 <div class="modal-body">
+                                <div class="collapse" id="collapseExample">
+                                    <div class="card card-body">
                                     <form id="registerForm" name="registerForm">
                                         <div class="form-group">
                                             <label for="rname">Name</label>
                                             <input class="form-control" id="rname" placeholder="Your Name" name="rname">
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="rollno">Roll number</label>
+                                            <input type="text" class="form-control" id="rollno" placeholder="Enter your roll no." name="rollno">
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="cy">Year</label>
+                                            <input type="number" class="form-control" id="cy" placeholder="Enter your year" name="cy" min="1" max="4">
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="rdept">Department</label>
+                                            <input type="text" class="form-control" id="rdept" placeholder="Enter your department" name="rdept">
                                           </div>
                                         <div class="form-group">
                                           <label for="remail">Email address</label>
@@ -250,7 +272,37 @@ a:hover {
                                           </div>
                                         <input type="submit" class="btn btn-primary" value="Register">
                                         </form>
+                                        </div>
                                 </div>
+                                <div class="collapse" id="collapseExample1">
+                                    <div class="card card-body">
+                                    <form id="registerForm1" name="registerForm1">
+                                        <div class="form-group">
+                                            <label for="sname">Name</label>
+                                            <input class="form-control" id="sname" placeholder="Your Name" name="sname" type="text">
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="sdept">Department</label>
+                                            <input type="text" class="form-control" id="sdept" placeholder="Enter your department" name="sdept">
+                                          </div>
+                                        <div class="form-group">
+                                          <label for="semail">Email address</label>
+                                          <input type="email" class="form-control" id="semail" aria-describedby="emailHelp" placeholder="Enter email" name="semail">
+                                          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="spassword">Password</label>
+                                          <input type="password" class="form-control" id="spassword" placeholder="Password" name="spassword">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="spassword1">Confirm Password</label>
+                                            <input type="password" class="form-control" id="spassword1" placeholder="Enter Password Again" name="spassword1">
+                                          </div>
+                                        <input type="submit" class="btn btn-primary" value="Register">
+                                        </form>
+                                        </div>
+                                </div>
+                              </div>
                               </div>
                             </div>
                           </div>
@@ -259,7 +311,7 @@ a:hover {
                 </div>
                 <div class="card card2">
                     <div class="my-auto mx-md-5 px-md-5 right">
-                        <h3 class="text-black">Experience the joy of taking examinations online!</h3> <small class="text-black">Open Source Online Examination Platform.</small>
+                        <h3 class="text-black">Experience the joy of taking examinations online!</h3> <small class="text-black">Online Examination Platform.</small>
                     </div>
                 </div>
             </div>

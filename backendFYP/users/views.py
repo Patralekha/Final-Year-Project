@@ -33,11 +33,15 @@ class AuthViewSet(viewsets.GenericViewSet):
 
     @action(methods=['POST', ], detail=False)
     def register(self, request):
+        print(request.data)
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        if serializer.is_valid() is False:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        #serializer.is_valid(raise_exception=True)
         user = create_user_account(**serializer.validated_data)
         data = serializers.AuthUserSerializer(user).data
         ts=request.data['ts']
+        print(data," ",ts)
         if ts == 'True':
             roll=request.data['rollno']
             dept=request.data['dept']
@@ -46,7 +50,9 @@ class AuthViewSet(viewsets.GenericViewSet):
             obj.save()
         else:
             dept=request.data['dept']
-            obj=Teacher(studentId=user,department=dept)
+            user.adminPrivilege=True
+            user.save()
+            obj=Teacher(teacherId=user,department=dept)
             obj.save()
         return Response(data=data, status=status.HTTP_201_CREATED)
 
