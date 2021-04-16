@@ -9,7 +9,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework.response import Response
 from .models import Subject,Topic,MCQSet
-
+from django.db.models import Count
 from . import serializers
 
 
@@ -23,12 +23,18 @@ class SubjectViewSet(viewsets.GenericViewSet):
     
     queryset=''
 
+        
+
     @action(methods=['GET'], detail=False, permission_classes=[AllowAny, ])
     def allSubjects(self, request):
-        queryset = Subject.objects.values('subject')
+        queryset = Subject.objects.values('sub_id','subject')
         return Response(queryset)
 
-    
+    @action(methods=['GET'],detail=False,permission_classes=[AllowAny])
+    def allTopics(self,request):
+        queryset = (Topic.objects.values('id','subject_id','topic_id','topic').order_by('subject_id'))
+        return Response(queryset)
+
 
     @action(methods=['POST'], detail=False, permission_classes=[AllowAny, ])
     def addSubject(self, request):
@@ -45,7 +51,7 @@ class SubjectViewSet(viewsets.GenericViewSet):
         topic_inds=Topic.objects.filter(subject_id=obj).order_by('-topic_id')
         last_topic_id=0
         if len(topic_inds) != 0:
-            last_topic_id=topic_inds[0]+1
+            last_topic_id=topic_inds[0].topic_id+1
 
         print(last_topic_id)
         curr_topic_id=last_topic_id+1

@@ -21,3 +21,10 @@ class SubjectSerializer(serializers.Serializer):
         fields = ( 'subject',)
 
 
+
+class TopicSerializer(serializers.Serializer):
+    class Meta:
+        model = Topic
+        fields = ( 'id','subject_id','topic_id','topic')
+
+
