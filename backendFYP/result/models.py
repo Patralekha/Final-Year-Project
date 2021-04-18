@@ -14,3 +14,6 @@ class MCQResult(models.Model):
     ans_chosen=ArrayField(models.IntegerField())
     score=models.IntegerField()
     date=models.DateField()
+
+
+#add model to store subjective answers
