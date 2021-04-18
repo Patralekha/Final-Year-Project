@@ -112,7 +112,7 @@
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="tindex.js"></script>
+<script src="test.js"></script>
 
 </head>
 <body>
@@ -198,152 +198,11 @@
       <div style="align-items:left;text-align: left;" class="col-md-11">
 
 
-        <h1  style="font-weight: bolder;color:rgb(15, 9, 1);text-align: center;margin-top: 20px;">Teacher Dashboard</h1>
+        <h1  style="font-weight: bolder;color:rgb(15, 9, 1);text-align: center;margin-top: 20px;">Examination Window</h1>
         <br/><br/>
-        <button type="button" class="btn btn-default btn-lg" style="margin-bottom:10px;" data-toggle="modal" data-target="#myModal">
-          <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add a new Subject
-        </button> &nbsp;
-        <button type="button" class="btn btn-default btn-lg" style="margin-bottom:10px;" data-toggle="modal" data-target="#myModal1">
-          <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add a new Topic
-        </button>
-
-
-
-         <div id="my-modal" style="display: none;">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Add Questions</h4>
-                <button type="button" class="close" data-dismiss="modal" onclick="document.getElementById('my-modal').style.display='none'">&times;</button>
-                
-              </div>
-              <div class="modal-body">
-                <form id="addQ">
-
-                  <div class="form-group">
-                    <label for="exampleFormControlSelect1">Add question </label><br/>
-                    <textarea placeholder="Enter Question" class="form-control" id="question" name="question" rows="6"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Level</label>
-                    <select class="form-control" id="level" name="level">
-                      <option>Easy</option>
-                      <option>Medium</option>
-                      <option>Hard</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Option 1</label>
-                    <input type="text" id="op1" name="opt1">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Option 2</label>
-                    <input type="text" id="op2" name="opt2">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Option 3</label>
-                    <input type="text" id="op3" name="opt3">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Option 4</label>
-                    <input type="text" id="op4" name="opt4">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Answer key</label>
-                    <input type="number" id="ans" name="ans" min="1" max="4"> 
-                  </div>
-                  <input type="submit" class="btn btn-primary" value="Add">
-                  </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>&nbsp;
-                <button type="button" class="btn btn-default btn-danger" onclick="document.getElementById('addQ').reset()">Reset</button>
-              </div>
-            </div>
         
-          </div>
-        </div>
-
-
-
-
-
-
-
-
-        <div id="myModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Add Subject</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                
-              </div>
-              <div class="modal-body">
-                <form id="addsub" name="addsub">
-                  
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Subject name</label>
-                    <input type="text" class="form-control" id="sub" placeholder="Subject name" name="sub">
-                  </div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-                
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-        
-          </div>
-        </div>
-
-
-
-        <div id="myModal1" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Add topic under a subject</h4>
-                <button type="button" class="close" data-dismiss="modal" >&times;</button>
-                
-              </div>
-              <div class="modal-body">
-                <form id="addtopic" name="addtopic">
-
-                  <div class="form-group">
-                    <label for="exampleFormControlSelect1">Select Subject</label>
-                    <select class="form-control" id="subselect" name="subselect">
-                      
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Add topic</label>
-                    <input type="text" class="form-control" id="topicadd" placeholder="Topic name" name="topicadd">
-                  </div>
-                  <input type="submit" class="btn btn-primary" value="Add">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-        
-          </div>
-        </div>
-        
-
-        <ul class="list-group" id="subtop">
-        </ul>
-
-
-
-
-
-
-        <!-- Test Subjects Offered -->
-
-       
+        <div id="testtype"></div>
+        <h1 id="subject" style="color:rgb(15, 9, 1);text-align: center;"></h1>
 
        
 

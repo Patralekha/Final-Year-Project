@@ -55,3 +55,126 @@ function logout() {
   });
 }
 
+
+   
+  /*                               MCQ AND SUBJECTTIVE TEST                     */
+
+
+
+  function getSubject(id){
+   // var subject='';
+    $.ajax({
+      type: "GET",
+      url: "http://127.0.0.1:8000/"+id+"/getSubject/",
+      success: function (data) {
+        //subject=data['subject'];
+        localStorage.setItem("subject",data['subject']);
+      },
+      error: function (response) {
+        alert(response["statusText"]);
+      },
+    });
+    //return subject;
+  }
+  
+  function mcqtest(subject_id){
+     getSubject(subject_id);
+     localStorage.setItem("testType","mcq");
+     localStorage.setItem("subjectId",subject_id);
+     console.log(localStorage.getItem('subject'));
+     window.location.href="test.html";
+  }
+  
+
+  function subtest(subject_id){
+    getSubject(subject_id);
+    localStorage.setItem("testType","subjective");
+    localStorage.setItem("subjectId",subject_id);
+   // localStorage.setItem("subject",subj);
+    window.location.href="test.html";
+ }
+ 
+
+
+ function report(subject_id){
+  getSubject(subject_id);
+  localStorage.setItem("subjectId",subject_id);
+  //localStorage.setItem("subject",subject);
+  //localStorage.setItem("subject",subj);
+  window.location.href="report.html";
+}
+
+
+/*                     MAIN FUNCTIONS                  */
+
+function loop1(data,str){
+  var i;
+  for (i = 0; i < data.length; i++) { 
+    var id='sub'+data[i]['sub_id'];
+    var sub=""+data[i]['subject'];
+    console.log(sub);
+          $(str).append(
+                `<li class="list-group-item" id="${id}"><h3>${sub}&nbsp;<h3>
+                <a class="btn btn-primary" type="button" onclick="mcqtest(${data[i]['sub_id']})">Take Objective Test</a>
+                <button class="btn btn-danger" type="button" onclick="subtest(${data[i]['sub_id']})">Take Subjective Test</button>
+                <button class="btn btn-success" type="button" onclick="report(${data[i]['sub_id']})">Report</button>
+                </li><br/>`
+                );
+          }
+  
+}
+
+
+
+$(document).ready(function () {
+
+  //populate subject and topic list in page
+  //populate subject list in addtopics modal
+  var subjects=0;
+  $.ajax({
+    type: "GET",
+    url: "http://127.0.0.1:8000/allSubjects/",
+    success: function (data) {
+      console.log(data);
+      //loop(data,'#subselect');
+      loop1(data,'#subtop');
+      call();
+    },
+    error: function (response) {
+      alert(response["statusText"]);
+    },
+  });
+  
+  });
+  
+  
+  
+  function call(){
+    $.ajax({
+      type: "GET",
+      url: "http://127.0.0.1:8000/allTopics/",
+      success: function (data) {
+        console.log(data);
+        var i;
+        for (i = 0; i < data.length; i++) { 
+          var str='#sub'+data[i]['subject_id'];
+          $(str).append(
+            `${data[i]['topic']}
+            <li class="list-group-item" id="" style='height:50px;align-items:center'>
+              <span class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+            70% Complete
+             </span>
+            </li><br/>`
+            );
+         }
+      
+        
+      },
+      error: function (response) {
+        alert(response["statusText"]);
+      },
+    });
+  }
+  
+  
+ 

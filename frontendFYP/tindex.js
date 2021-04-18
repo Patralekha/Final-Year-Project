@@ -56,7 +56,7 @@ function logout() {
 }
 
 
-
+/*                                    MAIN FUNCTIONS                                    */
 
 function loop(data,str){
   var i;
@@ -72,24 +72,30 @@ function loop(data,str){
 function loop1(data,str){
   var i;
   for (i = 0; i < data.length; i++) { 
+    var id='sub'+data[i]['sub_id'];
           $(str).append(
-                `<option>${data[i]['subject']}</option> `
+                `<li class="list-group-item" id="${id}"><h3>${data[i]['subject']}<h3></li><br/>`
                 );
           }
   
 }
 
+
+
+
 $(document).ready(function () {
 
 //populate subject and topic list in page
 //populate subject list in addtopics modal
-
+var subjects=0;
 $.ajax({
   type: "GET",
   url: "http://127.0.0.1:8000/allSubjects/",
   success: function (data) {
     console.log(data);
     loop(data,'#subselect');
+    loop1(data,'#subtop');
+    call();
   },
   error: function (response) {
     alert(response["statusText"]);
@@ -97,6 +103,74 @@ $.ajax({
 });
 
 });
+
+
+
+function call(){
+  $.ajax({
+    type: "GET",
+    url: "http://127.0.0.1:8000/allTopics/",
+    success: function (data) {
+      console.log(data);
+      var i;
+      for (i = 0; i < data.length; i++) { 
+        var str='#sub'+data[i]['subject_id'];
+        $(str).append(
+          `<li class="list-group-item" id="" style='height:50px;align-items:center'>${data[i]['topic']}
+          <a class="btn btn-success" style='float:right;' onclick="addQ1(${data[i]['topic_id']},${data[i]['subject_id']})" type="button">Add question</a>
+          <br/>
+          </li><br/>`
+          );
+       }
+    
+      
+    },
+    error: function (response) {
+      alert(response["statusText"]);
+    },
+  });
+}
+
+
+function addQ1(topicid,subjectid){
+  document.getElementById('my-modal').style.display='block';
+
+  $("#addQ").submit(function (event) {
+    event.preventDefault();      
+  var q = document.getElementById('question').value;
+  var o1 = $("input[name=opt1]").val();
+  var o2 = $("input[name=opt2]").val();
+  var o3 = $("input[name=opt3]").val();
+  var o4 = $("input[name=opt4]").val();
+  var ans = $("input[name=ans]").val();
+  var level =document.querySelector('#level').value;
+  var body={"subjectid":subjectid,"level":level,"topicid":topicid,"question":q,"o1":o1,"o2":o2,"o3":o3,"o4":o4,"ans":ans};
+  console.log(body);
+  $.ajax({
+    type: "POST",
+    url: "http://127.0.0.1:8000/addQuestion/",
+    data:body,
+    success: function (data) {
+     // location.reload();
+    },
+    error: function (response) {
+      alert(response["statusText"]);
+    },
+  });
+});
+
+
+}
+  
+
+
+
+
+
+
+
+
+
 
 $(document).ready(function () {
     $("#addsub").submit(function (event) {
@@ -111,6 +185,7 @@ $(document).ready(function () {
         url: "http://127.0.0.1:8000/addSubject/",
         data:body,
         success: function (data) {
+          location.reload();
         },
         error: function (response) {
           alert(response["statusText"]);
@@ -140,6 +215,7 @@ $("#addtopic").submit(function (event) {
         url: "http://127.0.0.1:8000/addTopic/",
         data:body,
         success: function (data) {
+          location.reload();
         },
         error: function (response) {
           alert(response["statusText"]);
