@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'rest_registration',
     'users',
     'subjects',
+    'result',
 ]
 
 MIDDLEWARE = [

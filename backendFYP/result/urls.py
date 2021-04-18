@@ -2,10 +2,9 @@ from django.urls import path,include
 from . import views
 from rest_framework import routers
 from rest_framework import renderers
-from .views import SubjectViewSet,TestViewSet
+from .views import ResultViewSet
 
 router = routers.DefaultRouter()
-router.register('', SubjectViewSet, basename='subjects')
-router.register('', TestViewSet, basename='tests')
+router.register('', ResultViewSet, basename='result')
 
 urlpatterns = router.urls

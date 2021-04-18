@@ -27,6 +27,7 @@ class MCQSet(models.Model):
     option_3=models.TextField()
     option_4=models.TextField()
     answer_key=models.IntegerField()
+    level=models.CharField(max_length=10,default='Easy')
 
 
 # ADD ONE SubjectiveSet TABLE WITH ONE SUBJECTIVE QUESTION PAPER FOR EACH SUBJECT(FINAL TEST SET)
