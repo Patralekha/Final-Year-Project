@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-
 # Create your views here.
 from django.contrib.auth import get_user_model, logout
 from django.core.exceptions import ImproperlyConfigured
@@ -8,35 +7,48 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from .models import Subject, Topic, MCQSet
+from users.models import CustomUser, Student, Teacher
+from subjects.models import Subject, Topic, MCQSet
+from result.models import MCQResult
 from django.db.models import Count
-from . import serializers
+from .serializers import MCQQuestionSeriaLizer, EmptySerializer
 
-from .analysis import extract
+from .analysis_obj import analyse_obj, get_percentages, generate_query_obj
 
 
 class ResultViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny, ]
-    serializer_class = serializers.EmptySerializer
+    serializer_class = EmptySerializer
     serializer_classes = {
-        'mcq': serializers.EmptySerializer,
+        'mcq': EmptySerializer,
     }
 
     queryset = ''
 
-    @action(methods=['POST'], detail=False, permission_classes=[AllowAny, ])
-    def mcq(self, request):
-        queryset = Subject.objects.values('sub_id', 'subject')
-        #do analysis calculate score,store it in database and return it
-        return Response(queryset)
+    @action(methods=['GET'], detail=True, permission_classes=[AllowAny, ])
+    def mcq(self, request, pk=None):
+        queryset = analyse_obj(int(pk))
+        print(len(queryset))
+        l = []
+        for o in queryset:
+            d = {}
+            d['qid'] = o.qid
+            d['question']=o.question
+            d['option_1']=o.option_1
+            d['option_2']=o.option_2
+            d['option_3']=o.option_3
+            d['option_4']=o.option_4
+            d['ans_key']=o.answer_key
+            l.append(d)
+        return Response(data=l, status=status.HTTP_200_OK)
+        # else:
+        #    return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        # do analysis calculate score,store it in database and return it
+        # return Response(serializer.data,status=status.HTTP_200_OK)
 
-
-    @action(methods=['POST'], detail=False, permission_classes=[AllowAny, ])
-    def subjective(self, request):
-        candidate_answers=request.data['answers']
-        keywords_per_answer=extract(candidate_answers)
-        #do analysis calculate score,store it in database and return it
+    @action(methods=['GET'], detail=True, permission_classes=[AllowAny, ])
+    def subjective(self, request, pk=None):
+        candidate_answers = request.data['answers']
+        keywords_per_answer = extract(candidate_answers)
+        # do analysis calculate score,store it in database and return it
         return Response(status=status.HTTP_200_OK)
-
-
-    

@@ -92,7 +92,7 @@ class SubjectViewSet(viewsets.GenericViewSet):
 
 
 
-
+"""
 class TestViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny, ]
     serializer_class = serializers.EmptySerializer
@@ -116,3 +116,4 @@ class TestViewSet(viewsets.GenericViewSet):
         if self.action in self.serializer_classes.keys():
             return self.serializer_classes[self.action]
         return super().get_serializer_class()
+"""

@@ -1,5 +1,5 @@
 from django.db import models
-
+from django_random_queryset import RandomManager
 # Create your models here.
 
 class Subject(models.Model):
@@ -28,6 +28,8 @@ class MCQSet(models.Model):
     option_4=models.TextField()
     answer_key=models.IntegerField()
     level=models.CharField(max_length=10,default='Easy')
+
+    objects = RandomManager()
 
 
 # ADD ONE SubjectiveSet TABLE WITH ONE SUBJECTIVE QUESTION PAPER FOR EACH SUBJECT(FINAL TEST SET)

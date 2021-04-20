@@ -10,6 +10,7 @@ from users.models import Student,Teacher,CustomUser
 class MCQResult(models.Model):
     id=models.AutoField(primary_key=True)
     student_id=models.ForeignKey(Student,on_delete=models.CASCADE)
+    subject_id=models.IntegerField(default=0)
     qid=ArrayField(models.IntegerField())
     ans_chosen=ArrayField(models.IntegerField())
     score=models.IntegerField()
