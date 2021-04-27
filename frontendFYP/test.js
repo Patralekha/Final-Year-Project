@@ -60,7 +60,7 @@ function logout() {
 /*                                    MAIN FUNCTIONS                                    */
 
 var ansKeys={};
-
+var interval;
 
 function loop1(data,str){
   var i;
@@ -139,7 +139,7 @@ function test(){
 
 function startTimer(){
   var count = 5;
-var interval = setInterval(function(){
+ interval = setInterval(function(){
   document.getElementById('examEnd').innerHTML="<h1>"+count+"</h1>";
   count--;
   if (count === 0){
@@ -149,11 +149,14 @@ var interval = setInterval(function(){
     document.getElementById('end').disabled=true;
     evaluate1();
   }
-}, 1000);
+}, 5000);
 }
 
 function finish(){
-  //stop timer and auto submit... call evaluate1()
+  // auto submit... call evaluate1()
+  console.log("End examination clicked!");
+  
+  evaluate1();
 }
 
 
@@ -170,6 +173,7 @@ function storeAnswers(data){
 
 function evaluate1() {
  //stop timer
+ clearInterval(interval);
   var answersList=$("#myForm").serializeArray();
   console.log(answersList);
   var score=0;
@@ -184,13 +188,43 @@ function evaluate1() {
       score+=-1;
     }
    }
-   console.log(score);
-   sendExamScore();
+  // console.log(score);
+   sendExamScore(score,ansKeys,answersList);
   
 }
 
 
-function sendExamScore(){
+function sendExamScore(score,anskeys,ansList1){
   //make ajax POST to backend API and send options selected for question set and total score
   //to be stored in database
+
+  var subid=parseInt(localStorage.getItem('subjectId'));
+  var qid = [];
+  var anschosen = [];
+  var i=0;
+  for(;i<ansList1.length;i++){
+    var q=(ansList1[i]['name'].substring(8));
+    qid.push(parseInt(q));
+    anschosen.push(parseInt(ansList1[i]["value"]));
+  }
+
+  var body={'subjectId':subid,'anschosen':anschosen,'score':score,'q':qid};
+  console.log(body);
+
+ 
+  var url="http://127.0.0.1:8000/mcq_score/";
+  //var body={};
+  $.ajax({
+    type: "POST",
+    url: url,
+    data:body,
+    success: function (data) {
+     // console.log(data);
+     
+     // document.getElementById('submitbtn').style.display="block";
+    },
+    error: function (response) {
+      alert(response["statusText"]);
+    },
+  });
 }

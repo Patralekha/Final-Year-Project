@@ -14,6 +14,7 @@ from django.db.models import Count
 from .serializers import MCQQuestionSeriaLizer, EmptySerializer
 
 from .analysis_obj import analyse_obj, get_percentages, generate_query_obj
+from datetime import date
 
 
 class ResultViewSet(viewsets.GenericViewSet):
@@ -28,7 +29,7 @@ class ResultViewSet(viewsets.GenericViewSet):
     @action(methods=['GET'], detail=True, permission_classes=[AllowAny, ])
     def mcq(self, request, pk=None):
         queryset = analyse_obj(int(pk))
-        print(len(queryset))
+        #print(len(queryset))
         l = []
         for o in queryset:
             d = {}
@@ -48,7 +49,31 @@ class ResultViewSet(viewsets.GenericViewSet):
 
     @action(methods=['GET'], detail=True, permission_classes=[AllowAny, ])
     def subjective(self, request, pk=None):
+        # pick questions based on previous result
+        return Response(status=status.HTTP_200_OK)
+
+    @action(methods=['POST',], detail=False, permission_classes=[AllowAny, ])
+    def mcq_score(self, request):
+        
+        score=request.data['score']
+        answers=(request.POST.getlist('anschosen[]'))
+        qids=(request.POST.getlist('q[]'))
+        subid=request.data['subjectId']
+        today=date.today()
+        q=[]
+        a=[]
+        for i in qids:
+            q.append(i)
+        for i in answers:
+            a.append(i)
+        obj=MCQResult(student_id=Student.objects.get(id=1),subject_id=subid,qid=q,ans_chosen=a,score=score,date=today)
+        obj.save()
+        return Response(status=status.HTTP_200_OK)
+
+
+    @action(methods=['POST'],detail=False,permission_classes=[AllowAny,])
+    def subjective_score(self,request):
         candidate_answers = request.data['answers']
         keywords_per_answer = extract(candidate_answers)
-        # do analysis calculate score,store it in database and return it
         return Response(status=status.HTTP_200_OK)
+
