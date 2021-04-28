@@ -1,5 +1,6 @@
 from django.db import models
 from django_random_queryset import RandomManager
+from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
 class Subject(models.Model):
@@ -31,5 +32,19 @@ class MCQSet(models.Model):
 
     objects = RandomManager()
 
+    def __str__(self):
+        return "{}-{}".format(self.qid,self.question)
+
 
 # ADD ONE SubjectiveSet TABLE WITH ONE SUBJECTIVE QUESTION PAPER FOR EACH SUBJECT(FINAL TEST SET)
+class SubjectiveSet(models.Model):
+    qid=models.AutoField(primary_key=True)
+    subject_topic=models.ForeignKey(Topic,on_delete=models.CASCADE)
+    question=models.TextField()
+    level=models.CharField(max_length=10,default='Easy')
+    answer_keys=ArrayField(models.CharField(max_length=20))
+
+    objects = RandomManager()
+
+    def __str__(self):
+        return "{}-{}-{}".format(self.qid,self.question,self.answer_keys)

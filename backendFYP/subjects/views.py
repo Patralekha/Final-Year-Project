@@ -8,7 +8,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from .models import Subject, Topic, MCQSet
+from .models import Subject, Topic, MCQSet,SubjectiveSet
 from django.db.models import Count
 from . import serializers
 
@@ -78,6 +78,22 @@ class SubjectViewSet(viewsets.GenericViewSet):
         l = request.data['level']
         obj = MCQSet(subject_topic=subject_topic, question=q, option_1=op1, option_2=op2, option_3=op3, option_4=op4,
                      answer_key=ans, level=l)
+        obj.save()
+        return Response(status=status.HTTP_201_CREATED)
+
+
+
+    @action(methods=['POST'], detail=False, permission_classes=[AllowAny, ])
+    def addQuestionSubjective(self, request):
+        print(request.data)
+        subject = Subject.objects.filter(sub_id=request.data["subjectid"])[0]
+        subject_topic = Topic.objects.filter(
+            topic_id=request.data['topicid'], subject_id=subject)[0]
+
+        q = request.data['question']
+        keys=request.POST.getlist('keys[]')
+        l = request.data['level']
+        obj = SubjectiveSet(subject_topic=subject_topic, question=q, answer_keys=keys, level=l)
         obj.save()
         return Response(status=status.HTTP_201_CREATED)
 

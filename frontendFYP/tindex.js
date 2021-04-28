@@ -117,7 +117,8 @@ function call(){
         var str='#sub'+data[i]['subject_id'];
         $(str).append(
           `<li class="list-group-item" id="" style='height:50px;align-items:center'>${data[i]['topic']}
-          <a class="btn btn-success" style='float:right;' onclick="addQ1(${data[i]['topic_id']},${data[i]['subject_id']})" type="button">Add question</a>
+          <a class="btn btn-success" style='float:right;' onclick="addQ1(${data[i]['topic_id']},${data[i]['subject_id']})" type="button">Add MCQ</a>
+          <a class="btn btn-info" style='float:right;margin-right:2px;' onclick="addQ2(${data[i]['topic_id']},${data[i]['subject_id']})" type="button">Add Subjective Question</a>
           <br/>
           </li><br/>`
           );
@@ -165,6 +166,38 @@ function addQ1(topicid,subjectid){
 
 
 
+function addQ2(topicid,subjectid){
+  document.getElementById('my-modal-sub').style.display='block';
+
+
+  
+  $("#addQSub").submit(function (event) {
+    event.preventDefault();      
+  var q = document.getElementById('question-sub').value;
+  var ansKeys = document.getElementById('keywords').value.split(',');
+
+ 
+  var level =document.querySelector('#level-sub').value;
+  var body={"subjectid":subjectid,"level":level,"topicid":topicid,"question":q,"keys":ansKeys};
+  console.log(body);
+
+  
+  $.ajax({
+    type: "POST",
+    url: "http://127.0.0.1:8000/addQuestionSubjective/",
+    data:body,
+    success: function (data) {
+     // location.reload();
+    },
+    error: function (response) {
+      alert(response["statusText"]);
+    },
+  });
+});
+
+
+}
+  
 
 
 
