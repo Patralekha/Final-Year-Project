@@ -56,8 +56,57 @@ function logout() {
 }
 
 
+function load(){
+  //document.getElementById('subject').innerHTML=localStorage.getItem('subject');
+   var type=localStorage.getItem('testType');
+   
+}
 
-/*                                    MAIN FUNCTIONS                                    */
+/*                                   TEST TIMERS                                       */
+function startTimer(){
+  var count = 60;
+ interval = setInterval(function(){
+  document.getElementById('examEnd').innerHTML="<h1>"+count+"</h1>";
+  count--;
+  if (count === 0){
+    clearInterval(interval);
+    document.getElementById('examEnd').innerHTML='<h1>Exam Ended.<br/><small>Your answers have been autosubmitted.</small></h1>';
+    document.getElementById('submitbtn').disabled=true;
+    document.getElementById('end').disabled=true;
+    evaluate1();
+  }
+}, 5000);
+}
+
+function finish(){
+  // auto submit... call evaluate1()
+  console.log("End examination clicked!");
+  var type=localStorage.getItem('testType');
+  if(type==='mcq'){
+  evaluate1();
+  }else{
+    evaluate2();
+  }
+}
+
+
+function stop(){
+  document.getElementById('submitbtn').disabled=true;
+  if(localStorage.getItem('testType')==='mcq'){
+    evaluate1();
+  }else{
+    evaluate2();
+  }
+}
+
+
+/*     #############################################################################################    */
+
+
+
+
+
+/*                                    MAIN FUNCTIONS OBJECTIVE TEST                                */
 
 var ansKeys={};
 var interval;
@@ -101,11 +150,7 @@ $(document).ready(function () {
 });*/
 
 
-function load(){
-  document.getElementById('subject').innerHTML=localStorage.getItem('subject');
-   var type=localStorage.getItem('testType');
-   
-}
+
 
 
 function test(){
@@ -117,6 +162,8 @@ function test(){
 
   if(localStorage.getItem('testType')==='subjective'){
     url="http://127.0.0.1:8000/"+id+"/subjective/";
+    getSubectiveQuestions(url);
+    return ;
   }
 
   
@@ -137,27 +184,6 @@ function test(){
 
 }
 
-function startTimer(){
-  var count = 5;
- interval = setInterval(function(){
-  document.getElementById('examEnd').innerHTML="<h1>"+count+"</h1>";
-  count--;
-  if (count === 0){
-    clearInterval(interval);
-    document.getElementById('examEnd').innerHTML='<h1>Exam Ended.<br/><small>Your answers have been autosubmitted.</small></h1>';
-    document.getElementById('submitbtn').disabled=true;
-    document.getElementById('end').disabled=true;
-    evaluate1();
-  }
-}, 5000);
-}
-
-function finish(){
-  // auto submit... call evaluate1()
-  console.log("End examination clicked!");
-  
-  evaluate1();
-}
 
 
 
@@ -174,6 +200,7 @@ function storeAnswers(data){
 function evaluate1() {
  //stop timer
  clearInterval(interval);
+ document.getElementById('submitbtn').disabled=true;
   var answersList=$("#myForm").serializeArray();
   console.log(answersList);
   var score=0;
@@ -227,4 +254,92 @@ function sendExamScore(score,anskeys,ansList1){
       alert(response["statusText"]);
     },
   });
+}
+
+
+/*     #############################################################################################    */
+
+
+/*                               MAIN FUNCTIONS  SUBJECTIVE TEST                                      */
+
+
+function loop2(data,str){
+  var i;
+  for (i = 0; i < data.length; i++) { 
+   
+    var ansid="question-sub"+data[i]['qid'];
+          $(str).append(
+                `<li class="list-group-item" id="${data[i]['qid']}"><h3>${data[i]['question']}&nbsp;[5 marks]<h3>
+                <p>
+                <p class="text-muted">Type in your answer in the text box provided below.</p>
+                <textarea id='${ansid}' name='${ansid}' class="form-control" rows="6" placeholder='Your answer'></textarea>
+                </li><br/>`
+                );
+          }
+  
+}
+
+function getSubectiveQuestions(url){
+    console.log(url);
+    startTimer();
+    document.getElementById('submitbtn').style.display="block";
+    $.ajax({
+      type: "GET",
+      url: url,
+      success: function (data) {
+        console.log(data);
+        loop2(data,'#questions');
+       // storeAnswers(data);
+      //  startTimer();
+        //document.getElementById('submitbtn').style.display="block";
+      },
+      error: function (response) {
+        alert(response["statusText"]);
+      },
+    });
+}
+
+function storeSubAnswers(){
+
+}
+
+function evaluate2(){
+  clearInterval(interval);
+  document.getElementById('submitbtn').disabled=true;
+  var answersList=$("#myForm").serializeArray();
+  console.log(answersList);
+
+  var subid=parseInt(localStorage.getItem('subjectId'));
+  var qid = [];
+  var answers = [];
+  var i=0;
+  for(;i<answersList.length;i++){
+    var q=(answersList[i]['name'].substring(12));
+    qid.push(parseInt(q));
+    answers.push(answersList[i]["value"]);
+  }
+
+  var body={'subjectId':subid,'answers':answers,'q':qid};
+  console.log(body);
+
+  var url="http://127.0.0.1:8000/subjective_score/";
+  //var body={};
+  $.ajax({
+    type: "POST",
+    url: url,
+    data:body,
+    success: function (data) {
+     console.log(data);
+     
+     // document.getElementById('submitbtn').style.display="block";
+    },
+    error: function (response) {
+      alert(response["statusText"]);
+    },
+  });
+
+}
+
+function sendgetExamScore(){
+
 }

@@ -81,7 +81,9 @@ function logout() {
      getSubject(subject_id);
      localStorage.setItem("testType","mcq");
      localStorage.setItem("subjectId",subject_id);
-     console.log(localStorage.getItem('subject'));
+   //  localStorage.removeItem("subject");
+   //  localStorage.setItem("subject",k);
+   //  console.log(localStorage.getItem('subject'));
      window.location.href="test.html";
   }
   
@@ -90,6 +92,8 @@ function logout() {
     getSubject(subject_id);
     localStorage.setItem("testType","subjective");
     localStorage.setItem("subjectId",subject_id);
+   // localStorage.removeItem("subject");
+  //  localStorage.setItem("subject",k);
    // localStorage.setItem("subject",subj);
     window.location.href="test.html";
  }

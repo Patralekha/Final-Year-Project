@@ -49,10 +49,12 @@ def get_percentages(queryset):
             total[level]+=1
             k+=1
 
-    
-    easy=mapping['Easy']/total['Easy']
-    medium=mapping['Medium']/total['Medium']
-    hard=mapping['Hard']/total['Hard']
+    if total['Easy'] !=0:
+        easy=correct['Easy']/total['Easy']
+    if total['Medium'] !=0:
+        medium=correct['Medium']/total['Medium']
+    if total['Hard'] !=0:
+        hard=correct['Hard']/total['Hard']
     l.append(easy)
     l.append(medium)
     l.append(hard)
