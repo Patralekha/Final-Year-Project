@@ -73,7 +73,7 @@ def score_evaluation(lst3,ans_length):
     print("MATCH PERCENTAGE: ",match_percentage)
     score=0
     if match_percentage < 0.4:
-        score=0
+        score=match_percentage*5
     elif match_percentage >= 0.4 and match_percentage <0.6:
         score=0.62*5
     elif match_percentage >= 0.6 and match_percentage < 0.8:

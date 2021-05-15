@@ -119,10 +119,12 @@ function loop1(data,str){
     console.log(sub);
           $(str).append(
                 `<li class="list-group-item" id="${id}"><h3>${sub}&nbsp;<h3>
-                <a class="btn btn-primary" type="button" onclick="mcqtest(${data[i]['sub_id']})">Take Objective Test</a>
+                <a class="btn btn-info" type="button" onclick="mcqtest(${data[i]['sub_id']})">Take Objective Test</a>
                 <button class="btn btn-danger" type="button" onclick="subtest(${data[i]['sub_id']})">Take Subjective Test</button>
                 <button class="btn btn-success" type="button" onclick="report(${data[i]['sub_id']})">Report</button>
-                </li><br/>`
+                <p><br/><b>Topics</b></p>
+                </li>          
+                <br/>`
                 );
           }
   
@@ -163,11 +165,11 @@ $(document).ready(function () {
         for (i = 0; i < data.length; i++) { 
           var str='#sub'+data[i]['subject_id'];
           $(str).append(
-            `${data[i]['topic']}
-            <li class="list-group-item" id="" style='height:50px;align-items:center'>
-              <span class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+            `
+            <li class="list-group-item" id="" style='height:50px;align-items:center'>${data[i]['topic']}
+              <!--span class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
             70% Complete
-             </span>
+             </span-->
             </li><br/>`
             );
          }

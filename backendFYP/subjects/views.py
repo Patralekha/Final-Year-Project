@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from .models import Subject, Topic, MCQSet,SubjectiveSet
 from django.db.models import Count
 from . import serializers
-
+from .utils import generate_keywords
 
 class SubjectViewSet(viewsets.GenericViewSet):
     permission_classes = [AllowAny, ]
@@ -91,7 +91,9 @@ class SubjectViewSet(viewsets.GenericViewSet):
             topic_id=request.data['topicid'], subject_id=subject)[0]
 
         q = request.data['question']
-        keys=request.POST.getlist('keys[]')
+        ans=request.data['answer']
+        keys=generate_keywords(ans)
+        #keys=request.POST.getlist('keys[]')
         l = request.data['level']
         obj = SubjectiveSet(subject_topic=subject_topic, question=q, answer_keys=keys, level=l)
         obj.save()

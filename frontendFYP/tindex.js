@@ -174,11 +174,11 @@ function addQ2(topicid,subjectid){
   $("#addQSub").submit(function (event) {
     event.preventDefault();      
   var q = document.getElementById('question-sub').value;
-  var ansKeys = document.getElementById('keywords').value.split(',');
+  var ansKeys = document.getElementById('keywords').value;//.value.split(',');
 
  
   var level =document.querySelector('#level-sub').value;
-  var body={"subjectid":subjectid,"level":level,"topicid":topicid,"question":q,"keys":ansKeys};
+  var body={"subjectid":subjectid,"level":level,"topicid":topicid,"question":q,"answer":ansKeys};
   console.log(body);
 
   

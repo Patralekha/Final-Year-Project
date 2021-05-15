@@ -9,7 +9,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from users.models import CustomUser, Student, Teacher
 from subjects.models import Subject, Topic, MCQSet,SubjectiveSet
-from result.models import MCQResult
+from result.models import MCQResult,SubjectiveResult
 from django.db.models import Count
 from .serializers import MCQQuestionSeriaLizer, EmptySerializer
 
@@ -29,6 +29,7 @@ class ResultViewSet(viewsets.GenericViewSet):
 
     @action(methods=['GET'], detail=True, permission_classes=[AllowAny, ])
     def mcq(self, request, pk=None):
+        # pick objective  questions based n previous results
         queryset = analyse_obj(int(pk))
         l = []
         for o in queryset:
@@ -46,7 +47,7 @@ class ResultViewSet(viewsets.GenericViewSet):
 
     @action(methods=['GET'], detail=True, permission_classes=[AllowAny, ])
     def subjective(self, request, pk=None):
-        # pick questions based on previous result
+        # pick subjective questions 
         id1=pk
         subject=Subject.objects.get(sub_id=id1)
         query_topics=Topic.objects.filter(subject_id=subject)
@@ -65,6 +66,7 @@ class ResultViewSet(viewsets.GenericViewSet):
 
     @action(methods=['POST',], detail=False, permission_classes=[AllowAny, ])
     def mcq_score(self, request):
+        # store mcq response and score
         score=request.data['score']
         answers=(request.POST.getlist('anschosen[]'))
         qids=(request.POST.getlist('q[]'))
@@ -76,13 +78,15 @@ class ResultViewSet(viewsets.GenericViewSet):
             q.append(i)
         for i in answers:
             a.append(i)
-        obj=MCQResult(student_id=Student.objects.get(id=1),subject_id=subid,qid=q,ans_chosen=a,score=score,date=today)
+        #change student id from 1 to id from authentication
+        obj=MCQResult(student_id=Student.objects.get(id=1),subject_id=subid,qid=q,ans_chosen=a,score=score,date=today) 
         obj.save()
         return Response(status=status.HTTP_200_OK)
 
 
     @action(methods=['POST'],detail=False,permission_classes=[AllowAny,])
     def subjective_score(self,request):
+        # store subjective response and score
         answers=(request.POST.getlist('answers[]'))
         qids=(request.POST.getlist('q[]'))
         subid=request.data['subjectId']
@@ -90,5 +94,11 @@ class ResultViewSet(viewsets.GenericViewSet):
         print(answers)
         scores=generate_score_from_ans(answers,qids,subid)
         print(scores)
+        today=date.today()
+        scores_arr=list(scores.values())
+        print(scores_arr)
+        #change student id from 1 to id from authentication
+        obj=SubjectiveResult(student_id=Student.objects.get(id=1),subject_id=subid,qid=qids,ans_chosen=answers,score=scores_arr,date=today)
+        obj.save()
         return Response(data=scores,status=status.HTTP_200_OK)
 
