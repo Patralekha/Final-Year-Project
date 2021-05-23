@@ -27,7 +27,7 @@ class ResultViewSet(viewsets.GenericViewSet):
 
     queryset = ''
 
-    @action(methods=['GET'], detail=True, permission_classes=[AllowAny, ])
+    @action(methods=['GET'], detail=True, permission_classes=[IsAuthenticated, ])
     def mcq(self, request, pk=None):
         # pick objective  questions based n previous results
         queryset = analyse_obj(int(pk))
@@ -45,7 +45,7 @@ class ResultViewSet(viewsets.GenericViewSet):
         return Response(data=l, status=status.HTTP_200_OK)
 
 
-    @action(methods=['GET'], detail=True, permission_classes=[AllowAny, ])
+    @action(methods=['GET'], detail=True, permission_classes=[IsAuthenticated, ])
     def subjective(self, request, pk=None):
         # pick subjective questions 
         id1=pk
@@ -64,7 +64,7 @@ class ResultViewSet(viewsets.GenericViewSet):
             l.append(d)
         return Response(data=l,status=status.HTTP_200_OK)
 
-    @action(methods=['POST',], detail=False, permission_classes=[AllowAny, ])
+    @action(methods=['POST',], detail=False, permission_classes=[IsAuthenticated, ])
     def mcq_score(self, request):
         # store mcq response and score
         score=request.data['score']
@@ -84,7 +84,7 @@ class ResultViewSet(viewsets.GenericViewSet):
         return Response(status=status.HTTP_200_OK)
 
 
-    @action(methods=['POST'],detail=False,permission_classes=[AllowAny,])
+    @action(methods=['POST'],detail=False,permission_classes=[IsAuthenticated,])
     def subjective_score(self,request):
         # store subjective response and score
         answers=(request.POST.getlist('answers[]'))

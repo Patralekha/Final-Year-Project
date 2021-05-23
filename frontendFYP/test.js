@@ -44,9 +44,9 @@ function logout() {
     type: "POST",
     url: "http://127.0.0.1:8000/logout/",
     success: function (data) {
-      //sessionStorage.removeItem("name");
-      //sessionStorage.removeItem("adminPrivilege");
-      //sessionStorage.removeItem("auth", "");
+      sessionStorage.removeItem("name");
+      sessionStorage.removeItem("adminPrivilege");
+      sessionStorage.removeItem("auth", "");
       window.location.href = "login.html";
     },
     error: function (response) {
@@ -156,6 +156,9 @@ $(document).ready(function () {
 function test(){
    document.getElementById('end').disabled=false;
    document.getElementById('start').disabled=true;
+   var token = "Token ";
+   var token1 = sessionStorage.getItem("auth");
+   var authorization = token.concat(token1);
    var id=localStorage.getItem('subjectId');
   var url="http://127.0.0.1:8000/"+id+"/mcq/";
 
@@ -170,6 +173,7 @@ function test(){
   $.ajax({
     type: "GET",
     url: url,
+    headers: { Authorization: authorization },
     success: function (data) {
       console.log(data);
       loop1(data,'#questions');
@@ -238,13 +242,16 @@ function sendExamScore(score,anskeys,ansList1){
   var body={'subjectId':subid,'anschosen':anschosen,'score':score,'q':qid};
   console.log(body);
 
- 
+  var token = "Token ";
+  var token1 = sessionStorage.getItem("auth");
+  var authorization = token.concat(token1);
   var url="http://127.0.0.1:8000/mcq_score/";
   //var body={};
   $.ajax({
     type: "POST",
     url: url,
     data:body,
+    headers: { Authorization: authorization },
     success: function (data) {
      // console.log(data);
      
@@ -283,9 +290,13 @@ function getSubectiveQuestions(url){
     console.log(url);
     startTimer();
     document.getElementById('submitbtn').style.display="block";
+    var token = "Token ";
+    var token1 = sessionStorage.getItem("auth");
+    var authorization = token.concat(token1);
     $.ajax({
       type: "GET",
       url: url,
+      headers: { Authorization: authorization },
       success: function (data) {
         console.log(data);
         loop2(data,'#questions');
@@ -322,12 +333,17 @@ function evaluate2(){
   var body={'subjectId':subid,'answers':answers,'q':qid};
   console.log(body);
 
+  var token = "Token ";
+  var token1 = sessionStorage.getItem("auth");
+  var authorization = token.concat(token1);
+
   var url="http://127.0.0.1:8000/subjective_score/";
   //var body={};
   $.ajax({
     type: "POST",
     url: url,
     data:body,
+    headers: { Authorization: authorization },
     success: function (data) {
      console.log(data);
      
@@ -339,6 +355,8 @@ function evaluate2(){
   });
 
 }
+
+
 
 function sendgetExamScore(){
 

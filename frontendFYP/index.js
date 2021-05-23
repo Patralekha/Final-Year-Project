@@ -44,9 +44,9 @@ function logout() {
     type: "POST",
     url: "http://127.0.0.1:8000/logout/",
     success: function (data) {
-      //sessionStorage.removeItem("name");
-      //sessionStorage.removeItem("adminPrivilege");
-      //sessionStorage.removeItem("auth", "");
+      sessionStorage.removeItem("name");
+      sessionStorage.removeItem("adminPrivilege");
+      sessionStorage.removeItem("auth", "");
       window.location.href = "login.html";
     },
     error: function (response) {
@@ -62,10 +62,13 @@ function logout() {
 
 
   function getSubject(id){
-   // var subject='';
+    var token = "Token ";
+  var token1 = sessionStorage.getItem("auth");
+  var authorization = token.concat(token1);
     $.ajax({
       type: "GET",
       url: "http://127.0.0.1:8000/"+id+"/getSubject/",
+      headers: { Authorization: authorization },
       success: function (data) {
         //subject=data['subject'];
         localStorage.setItem("subject",data['subject']);
@@ -136,10 +139,14 @@ $(document).ready(function () {
 
   //populate subject and topic list in page
   //populate subject list in addtopics modal
+  var token = "Token ";
+  var token1 = sessionStorage.getItem("auth");
+  var authorization = token.concat(token1);
   var subjects=0;
   $.ajax({
     type: "GET",
     url: "http://127.0.0.1:8000/allSubjects/",
+    headers: { Authorization: authorization },
     success: function (data) {
       console.log(data);
       //loop(data,'#subselect');
@@ -156,9 +163,13 @@ $(document).ready(function () {
   
   
   function call(){
+    var token = "Token ";
+    var token1 = sessionStorage.getItem("auth");
+    var authorization = token.concat(token1);
     $.ajax({
       type: "GET",
       url: "http://127.0.0.1:8000/allTopics/",
+      headers: { Authorization: authorization },
       success: function (data) {
         console.log(data);
         var i;

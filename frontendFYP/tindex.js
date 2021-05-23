@@ -44,9 +44,9 @@ function logout() {
     type: "POST",
     url: "http://127.0.0.1:8000/logout/",
     success: function (data) {
-      //sessionStorage.removeItem("name");
-      //sessionStorage.removeItem("adminPrivilege");
-      //sessionStorage.removeItem("auth", "");
+      sessionStorage.removeItem("name");
+      sessionStorage.removeItem("adminPrivilege");
+      sessionStorage.removeItem("auth", "");
       window.location.href = "login.html";
     },
     error: function (response) {
@@ -87,10 +87,15 @@ $(document).ready(function () {
 
 //populate subject and topic list in page
 //populate subject list in addtopics modal
+var token = "Token ";
+var token1 = sessionStorage.getItem("auth");
+var authorization = token.concat(token1);
+
 var subjects=0;
 $.ajax({
   type: "GET",
   url: "http://127.0.0.1:8000/allSubjects/",
+  headers: { Authorization: authorization },
   success: function (data) {
     console.log(data);
     loop(data,'#subselect');
@@ -107,9 +112,15 @@ $.ajax({
 
 
 function call(){
+
+  var token = "Token ";
+var token1 = sessionStorage.getItem("auth");
+var authorization = token.concat(token1);
+
   $.ajax({
     type: "GET",
     url: "http://127.0.0.1:8000/allTopics/",
+    headers: { Authorization: authorization },
     success: function (data) {
       console.log(data);
       var i;
@@ -147,9 +158,15 @@ function addQ1(topicid,subjectid){
   var level =document.querySelector('#level').value;
   var body={"subjectid":subjectid,"level":level,"topicid":topicid,"question":q,"o1":o1,"o2":o2,"o3":o3,"o4":o4,"ans":ans};
   console.log(body);
+
+  var token = "Token ";
+  var token1 = sessionStorage.getItem("auth");
+  var authorization = token.concat(token1);
+
   $.ajax({
     type: "POST",
     url: "http://127.0.0.1:8000/addQuestion/",
+    headers: { Authorization: authorization },
     data:body,
     success: function (data) {
      // location.reload();
@@ -181,10 +198,15 @@ function addQ2(topicid,subjectid){
   var body={"subjectid":subjectid,"level":level,"topicid":topicid,"question":q,"answer":ansKeys};
   console.log(body);
 
+  var token = "Token ";
+  var token1 = sessionStorage.getItem("auth");
+  var authorization = token.concat(token1);
+
   
   $.ajax({
     type: "POST",
     url: "http://127.0.0.1:8000/addQuestionSubjective/",
+    headers: { Authorization: authorization },
     data:body,
     success: function (data) {
      // location.reload();
@@ -212,10 +234,15 @@ $(document).ready(function () {
       var sub = $("input[name=sub]").val();
       document.getElementsByName("addsub")[0].reset();
       var body={"subject":sub};
+
+      var token = "Token ";
+      var token1 = sessionStorage.getItem("auth");
+      var authorization = token.concat(token1);
       
       $.ajax({
         type: "POST",
         url: "http://127.0.0.1:8000/addSubject/",
+        headers: { Authorization: authorization },
         data:body,
         success: function (data) {
           location.reload();
@@ -243,9 +270,15 @@ $("#addtopic").submit(function (event) {
     var body={"subject":sub,"topic":topic};
     console.log(body);
     document.getElementsByName("addtopic")[0].reset();
+
+    var token = "Token ";
+    var token1 = sessionStorage.getItem("auth");
+    var authorization = token.concat(token1);
+
    $.ajax({
         type: "POST",
         url: "http://127.0.0.1:8000/addTopic/",
+        headers: { Authorization: authorization },
         data:body,
         success: function (data) {
           location.reload();

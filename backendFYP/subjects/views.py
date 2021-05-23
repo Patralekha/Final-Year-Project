@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model, logout
 from django.core.exceptions import ImproperlyConfigured
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from .models import Subject, Topic, MCQSet,SubjectiveSet
 from django.db.models import Count
@@ -22,31 +22,31 @@ class SubjectViewSet(viewsets.GenericViewSet):
 
     queryset = ''
 
-    @action(methods=['GET'], detail=False, permission_classes=[AllowAny, ])
+    @action(methods=['GET'], detail=False, permission_classes=[IsAuthenticated, ])
     def allSubjects(self, request):
         queryset = Subject.objects.values('sub_id', 'subject')
         return Response(queryset)
 
 
-    @action(methods=['GET'], detail=True, permission_classes=[AllowAny, ])
+    @action(methods=['GET'], detail=True, permission_classes=[IsAuthenticated, ])
     def getSubject(self, request,pk=None):
         print(pk)
         obj = Subject.objects.get(sub_id=pk)
         return Response(data={"subject":obj.subject})
 
-    @action(methods=['GET'], detail=False, permission_classes=[AllowAny])
+    @action(methods=['GET'], detail=False, permission_classes=[IsAuthenticated])
     def allTopics(self, request):
         queryset = (Topic.objects.values('id', 'subject_id',
                     'topic_id', 'topic').order_by('subject_id'))
         return Response(queryset)
 
-    @action(methods=['POST'], detail=False, permission_classes=[AllowAny, ])
+    @action(methods=['POST'], detail=False, permission_classes=[IsAuthenticated, ])
     def addSubject(self, request):
         obj = Subject(subject=request.data['subject'])
         obj.save()
         return Response(status=status.HTTP_201_CREATED)
 
-    @action(methods=['POST'], detail=False, permission_classes=[AllowAny, ])
+    @action(methods=['POST'], detail=False, permission_classes=[IsAuthenticated, ])
     def addTopic(self, request):
         print(request.data)
         obj = Subject.objects.filter(subject=request.data['subject'])[0]
@@ -62,7 +62,7 @@ class SubjectViewSet(viewsets.GenericViewSet):
         obj1.save()
         return Response(status=status.HTTP_201_CREATED)
 
-    @action(methods=['POST'], detail=False, permission_classes=[AllowAny, ])
+    @action(methods=['POST'], detail=False, permission_classes=[IsAuthenticated, ])
     def addQuestion(self, request):
         print(request.data)
         subject = Subject.objects.filter(sub_id=request.data["subjectid"])[0]
@@ -83,7 +83,7 @@ class SubjectViewSet(viewsets.GenericViewSet):
 
 
 
-    @action(methods=['POST'], detail=False, permission_classes=[AllowAny, ])
+    @action(methods=['POST'], detail=False, permission_classes=[IsAuthenticated, ])
     def addQuestionSubjective(self, request):
         print(request.data)
         subject = Subject.objects.filter(sub_id=request.data["subjectid"])[0]
