@@ -102,3 +102,11 @@ class ResultViewSet(viewsets.GenericViewSet):
         obj.save()
         return Response(data=scores,status=status.HTTP_200_OK)
 
+
+    @action(methods=['GET'],detail=False,permission_classes=[AllowAny,])
+    def fetch_scores(self,request):
+        scores1=MCQResult.objects.values('date','score')
+        scores2=SubjectiveResult.objects.values('date','score')
+        return Response(data={'mscores':scores1,'subscores':scores2},status=status.HTTP_200_OK)
+
+    
