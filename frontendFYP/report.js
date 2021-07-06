@@ -134,5 +134,17 @@ console.log(score2);
  
   
   Plotly.newPlot('performance-graph1', data1, layout);
+  var data = [{
+    values: [19, 26, 55],
+    labels: ['Optics', 'Non-Electromagnetism', 'Mechanics'],
+    type: 'pie'
+  }];
+  
+  var layout = {
+    height: 400,
+    width: 500
+  };
+  
+  Plotly.newPlot('performance-graph-2', data, layout);
  
 }

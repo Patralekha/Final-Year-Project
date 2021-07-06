@@ -107,6 +107,19 @@ function logout(){
   }
 
 
+  function predict(){
+    const a=['Frequent Mentoring','Moderate Mentoring','Low Mentoring'];
+    var max=3;
+    var min=0;
+    var j=Math.floor(Math.random() * (max - min) + min);
+    console.log(j);
+    var s=a[j];
+    console.log(s);
+    document.getElementById('mentor').innerHTML='<h3>'+s+'</h3>';
+
+  }
+
+  /*
 
   function loadUsers() {
     var token="Token ";
@@ -130,91 +143,4 @@ function logout(){
 
   }
 
-
-function quickbookAccounts(){
-  var token="Token ";
-    var token1=sessionStorage.getItem('auth');
-    console.log(token1);
-    var authorization=token.concat(token1);
-    $.ajax({
-      type: "GET",
-      url: "http://127.0.0.1:8000/quickbooksAccounts/",
-      headers: {"Authorization": authorization},
-      success: function (data) {
-        console.log(data);
-        window.location.href=data['url'];
-        
-   
-      },
-      error: function (response) {
-        alert(response["statusText"]);
-      },
-    });
-}
-
-
-function xeroAccounts(){
-  var token="Token ";
-    var token1=sessionStorage.getItem('auth');
-    console.log(token1);
-    var authorization=token.concat(token1);
-    $.ajax({
-      type: "GET",
-      url: "http://127.0.0.1:8000/xeroAccounts/",
-      headers: {"Authorization": authorization},
-      success: function (data) {
-        console.log(data);
-        window.location.href=data['url'];
-        
-   
-      },
-      error: function (response) {
-        alert(response["statusText"]);
-      },
-    });
-}
-
-
-
-function xeroUsers(){
-  var token="Token ";
-    var token1=sessionStorage.getItem('auth');
-    console.log(token1);
-    var authorization=token.concat(token1);
-    $.ajax({
-      type: "GET",
-      url: "http://127.0.0.1:8000/xeroUsers/",
-      headers: {"Authorization": authorization},
-      success: function (data) {
-        console.log(data);
-        window.location.href=data['url'];
-        
-   
-      },
-      error: function (response) {
-        alert(response["statusText"]);
-      },
-    });
-}
-
-
-function quickbookUsers(){
-  var token="Token ";
-    var token1=sessionStorage.getItem('auth');
-    console.log(token1);
-    var authorization=token.concat(token1);
-    $.ajax({
-      type: "GET",
-      url: "http://127.0.0.1:8000/quickbooksUsers/",
-      headers: {"Authorization": authorization},
-      success: function (data) {
-        console.log(data);
-        window.location.href=data['url'];
-        
-   
-      },
-      error: function (response) {
-        alert(response["statusText"]);
-      },
-    });
-}
+*/

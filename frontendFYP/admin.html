@@ -47,7 +47,7 @@
 <script src="admin.js"></script>
 
 <script>
-   window.onload=loadUsers;
+   //window.onload=loadUsers;
 </script>
 
 <style>
@@ -175,8 +175,8 @@ span.num {
       </div>
 
       <a href class="text-center log-9b navbar-brand">
-        <span class="log-th">&#xae; Recko</span>
-        <span class="log-block">Accounting</span>
+        <span class="log-th">&#xae; Mentoring Group Prediction</span>
+        <span class="log-block"></span>
     </a>
     </div>
   </nav>
@@ -203,38 +203,19 @@ span.num {
      
       <div class="col-md-8 users">
 
-        <p style="font-size:xx-large;">Grant or revoke admin privileges to users</p>
+        <p style="font-size:xx-large;">Mentoring Group Prediction for the following Students</p>
         <ul class="list-group" id="allusers" name="allusers" style="text-align:left;">
-        
+        <li><h4>Patralekha Bhattacharjee </h4>&nbsp;&nbsp;
+          <div><h3>Subjective score:65      Objective Score:77</h3></div>
+           <button class="btn btn-lg btn-success" onclick="predict()">Predict</button> 
+          <div><h2>Cluster/Group:</h2><div></div>
+          <div id="mentor" class="btn-outline-info"></div></li>
         </ul>
         <br><br><br><br>
     </div>
     
 
-    <hr>
-    <div class="col-md-6">
-      <p style="font-size:xx-large;">Connect to Quickbooks or Xero to fetch data from an organization</p>
-      <a class="btn btn-lg btn-success btn-block" href="http://127.0.0.1:8000/quickbook">Connect to Quickbooks</a>&nbsp;&nbsp;
-      <a class="btn btn-lg btn-danger btn-block" href="http://127.0.0.1:8000/xero">Connect to Xero</a>
-      <br><br><br><br>
-    </div>
-    <hr>
-
-    <div class="col-md-6">
-      <p style="font-size:xx-large;">Add,Delete or Modify Xero or Quickbooks Accounts</p>
-      <button class="btn btn-lg btn-success btn-block" onclick='quickbookAccounts()'>Add,Delete or Configure multiple Quickbooks accounts</button>&nbsp;&nbsp;
-      <button class="btn btn-lg btn-danger btn-block" onclick='xeroAccounts()'>Add,Delete or Configure multiple Xero accounts</button>
-      <br><br><br><br>
-    </div>
-  
-    <hr>
-
-    <div class="col-md-6">
-      <p style="font-size:xx-large;">Add,Delete Users to/from  Xero or Quickbooks organization</p>
-      <button class="btn btn-lg btn-success btn-block" onclick="quickbookUsers()">Add,Delete Users to/from Quickbooks organization</button>&nbsp;&nbsp;
-      <button class="btn btn-lg btn-danger btn-block" onclick="xeroUsers()">Add,Delete Users to/from Xero organization</button>
-      <br><br><br><br>
-    </div>
+    
   
     <hr>
 
