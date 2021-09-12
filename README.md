@@ -1,2 +1,3 @@
 # Final-Year-Project
-Collaborators:Patralekha &amp; Soumili
+Collaborators:Patralekha 
+Built using PHP, MySQL, HTML, CSS, JavaScript, Bootstrap
